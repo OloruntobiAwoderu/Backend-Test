@@ -8,12 +8,24 @@ const questionSchema = new Schema(
       required: [true, 'question must have a description']
     },
     vote: {
-      type: Number
+      type: Number,
+      default: 0
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user'
-    }
+    },
+    answers: [
+      {
+        answer: {
+          type: String
+        },
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'user'
+        }
+      }
+    ]
   },
   { timestamps: true }
 );

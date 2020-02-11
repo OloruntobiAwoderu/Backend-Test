@@ -1,13 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const answerSchema = new Schema(
+const subscriptionSchema = new Schema(
   {
-    description: {
-      type: String,
-      required: [true, 'answer must have a description']
-    },
-
     questionId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'question'
@@ -20,4 +15,4 @@ const answerSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('answer', answerSchema);
+module.exports = mongoose.model('answer', subscriptionSchema);

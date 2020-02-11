@@ -1,9 +1,9 @@
 const User = require('./user');
 const Question = require('./question');
-const Answer = require('./answer');
+const Subscription = require('./subscription');
 
 module.exports = {
   User,
   Question,
-  Answer
+  Subscription
 };
