@@ -11,18 +11,20 @@ const questionSchema = new Schema(
       type: Number,
       default: 0
     },
+    voters: {
+      type: [mongoose.Schema.Types.ObjectId]
+    },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user'
     },
     answers: [
       {
-        answer: {
+        description: {
           type: String
         },
         userId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'user'
+          type: mongoose.Schema.Types.ObjectId
         }
       }
     ]

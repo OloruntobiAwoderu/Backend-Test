@@ -7,10 +7,12 @@ const subscriptionSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'question'
     },
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user'
-    }
+    subscribers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+      }
+    ]
   },
   { timestamps: true }
 );

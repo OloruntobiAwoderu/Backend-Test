@@ -3,7 +3,7 @@ const Validator = require('validatorjs');
 const { errorHelper } = require('../helpers/response');
 
 module.exports = {
-  questionValidation(req, res, next) {
+  questionAndAnswerValidation(req, res, next) {
     const validator = new Validator(req.body, {
       description: 'required'
     });

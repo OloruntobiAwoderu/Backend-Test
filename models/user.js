@@ -24,6 +24,9 @@ const userSchema = new Schema(
       type: String,
       required: [true, 'User must have a lastname'],
       trim: true
+    },
+    subscriptions: {
+      type: Array
     }
   },
   { timestamps: true }
