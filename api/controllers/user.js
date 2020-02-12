@@ -1,7 +1,4 @@
-const bcrypt = require('bcryptjs');
-
 const models = require('../../models');
-const secret = require('../../config/keys');
 
 const { generateToken, decodeToken } = require('../helpers/jwt');
 const { successResponse, errorHelper } = require('../helpers/response');
