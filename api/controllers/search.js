@@ -52,21 +52,23 @@ module.exports = {
   async searchAnswers(req, res) {
     try {
       const { searchQuery } = req.query;
-      models.Question.find({}).then(quest => {
-        console.log(quest, 1);
-        quest.map(question => {
-          console.log(question.answers, 2);
+      const answers = await models.Question.find({});
+      console.log(answers[0].answers);
+      // models.Question.find({}).then(quest => {
+      //   console.log(quest, 1);
+      //   quest.map(question => {
+      //     console.log(question.answers, 2);
 
-          let answersArray = [];
-          if (question.answers.includes(searchQuery)) {
-            answersArray.push(question.answers);
-          } else {
-            return 'No answers found';
-          }
-          console.log(answersArray, 3);
-          return answersArray;
-        });
-      });
+      //     let answersArray = [];
+      //     if (question.answers.includes(searchQuery)) {
+      //       answersArray.push(question.answers);
+      //     } else {
+      //       return 'No answers found';
+      //     }
+      //     console.log(answersArray, 3);
+      //     return answersArray;
+      //   });
+      // });
     } catch (error) {
       return errorHelper(res, 500, error);
     }
