@@ -40,7 +40,7 @@ describe('#Auth', () => {
   describe('/login', () => {
     it('should return a 400 since body is not provided', async done => {
       try {
-        const errorUser = await request(server).post('/login');
+        const errorUser = await request(server).post('/users/login');
         expect(errorUser.status).toEqual(400);
       } catch (error) {
         expect(error).toBe(error);
@@ -52,8 +52,9 @@ describe('#Auth', () => {
     it('should return a 401 if user dont exists', async done => {
       try {
         const invalidUser = await request(server)
-          .post('/login')
+          .post('/users/login')
           .send(testUser);
+
         expect(invalidUser.status).toEqual(401);
         expect(invalidUser.body).toBe('Invalid credentials');
       } catch (error) {
@@ -66,7 +67,7 @@ describe('#Auth', () => {
     it('should return a 200 if user exists', async done => {
       try {
         const user = await request(server)
-          .post('/login')
+          .post('/users/login')
           .send(userData);
         expect(user.status).toBe(200);
 
