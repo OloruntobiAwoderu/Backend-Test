@@ -4,13 +4,11 @@ const Schema = mongoose.Schema;
 const subscriptionSchema = new Schema(
   {
     questionId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'question'
+      type: mongoose.Schema.Types.ObjectId
     },
     subscribers: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
+        type: mongoose.Schema.Types.ObjectId
       }
     ]
   },

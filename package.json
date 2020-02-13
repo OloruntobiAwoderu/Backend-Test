@@ -12,7 +12,8 @@
   "scripts": {
     "start": "node index.js",
     "start:dev": "nodemon index",
-    "test": "cross-env NODE_ENV=test jest --forceExit --runInBand --verbose"
+    "test": "cross-env NODE_ENV=test jest --forceExit --runInBand --verbose",
+    "coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",

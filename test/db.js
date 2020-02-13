@@ -42,10 +42,33 @@ const disconnectDB = async () => {
 const createUser = () => {
   return User.create(userData);
 };
+const getUser = async () => {
+  const user = await User.findOne({ email: 'johndoe@gmail.com' }).exec();
+  return user;
+};
+const createQuestion = async () => {
+  const questionData = {
+    description: 'What are you doing',
+
+    userId: await (await getUser())._id
+  };
+
+  const question = await Question.create(questionData);
+  return question;
+};
+const getQuestion = async () => {
+  const question = await Question.findOne({
+    description: 'What are you doing'
+  }).exec();
+  return question;
+};
 
 module.exports = {
   connectDB,
   disconnectDB,
   createUser,
-  cleanDB
+  cleanDB,
+  getUser,
+  createQuestion,
+  getQuestion
 };
