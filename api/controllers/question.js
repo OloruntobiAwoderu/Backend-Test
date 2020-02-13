@@ -39,7 +39,7 @@ module.exports = {
         );
         return successResponse(res, 200, answer);
       } else {
-        return errorHelper(res, 400, 'You have already voted');
+        return errorHelper(res, 400, 'You can only Upvote once');
       }
     } catch (error) {
       return errorHelper(res, 500, error);
