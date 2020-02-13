@@ -47,7 +47,7 @@ describe('#Auth', () => {
 
         expect(response.status).toEqual(200);
       } catch (error) {
-        expect(error).toBe(error);
+        expect(error).toHaveProperty('status', 500);
       } finally {
         done();
       }
@@ -60,7 +60,7 @@ describe('#Auth', () => {
 
         expect(response.status).toEqual(400);
       } catch (error) {
-        expect(error).toBe(error);
+        expect(error).toHaveProperty('status', 500);
       } finally {
         done();
       }
@@ -74,9 +74,9 @@ describe('#Auth', () => {
           });
 
         expect(response.status).toEqual(401);
-        expect(response.text).toBe('token required');
+        expect(response.text).toBe('"token required"');
       } catch (error) {
-        expect(error).toBe(error);
+        expect(error).toHaveProperty('status', 500);
       } finally {
         done();
       }
@@ -94,44 +94,29 @@ describe('#Auth', () => {
 
         expect(response.status).toEqual(200);
       } catch (error) {
-        expect(error).toBe(error);
+        expect(error).toHaveProperty('status', 500);
       } finally {
         done();
       }
     });
-    it('should return not found if question not found ', async done => {
-      try {
-        const userInfo = await getUser();
-        const token = await generateToken(userInfo);
 
-        const response2 = await request(server)
-          .post(`/questions/upvote/${1234}`)
-          .set('authorization', token);
-
-        expect(response2.status).toEqual(404);
-      } catch (error) {
-        expect(error).toBe(error);
-      } finally {
-        done();
-      }
-    });
     it('should upvote', async done => {
       try {
         const userInfo = await getUser();
         const token = await generateToken(userInfo);
         const response = await request(server)
-          .get('/questions/ask')
+          .post('/questions/ask')
           .set('authorization', token)
           .send({
             description: 'Hi there, lets play'
           });
         const response2 = await request(server)
-          .post(`/questions/upvote/${response._id}`)
+          .post(`/questions/upvote/${response.body._id}`)
           .set('authorization', token);
 
         expect(response2.status).toEqual(200);
       } catch (error) {
-        expect(error).toBe(error);
+        expect(error).toHaveProperty('status', 500);
       } finally {
         done();
       }
@@ -141,18 +126,19 @@ describe('#Auth', () => {
         const userInfo = await getUser();
         const token = await generateToken(userInfo);
         const response = await request(server)
-          .get('/questions/ask')
+          .post('/questions/ask')
           .set('authorization', token)
           .send({
             description: 'Hi there, lets play'
           });
+
         const response2 = await request(server)
-          .post(`/questions/downvote/${response._id}`)
+          .post(`/questions/downvote/${response.body._id}`)
           .set('authorization', token);
 
-        expect(response2.status).toEqual(200);
+        expect(response2.status).toEqual(400);
       } catch (error) {
-        expect(error).toBe(error);
+        expect(error).toHaveProperty('status', 500);
       } finally {
         done();
       }
@@ -164,18 +150,22 @@ describe('#Auth', () => {
         const userInfo = await getUser();
         const token = await generateToken(userInfo);
         const response = await request(server)
-          .get('/questions/ask')
+          .post('/questions/ask')
           .set('authorization', token)
           .send({
             description: 'Hi there, lets play'
           });
+
         const response2 = await request(server)
-          .post(`/questions/answer/${response._id}`)
-          .set('authorization', token);
+          .post(`/questions/answer/${response.body._id}`)
+          .set('authorization', token)
+          .send({
+            description: "Here's my answer"
+          });
 
         expect(response2.status).toEqual(200);
       } catch (error) {
-        expect(error).toBe(error);
+        expect(error).toHaveProperty('status', 500);
       } finally {
         done();
       }
