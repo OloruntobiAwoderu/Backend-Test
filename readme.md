@@ -1,6 +1,9 @@
+[![Build Status](https://travis-ci.org/OloruntobiAwoderu/Backend-Test.svg?branch=master)](https://travis-ci.org/OloruntobiAwoderu/Backend-Test)
+
+
 # StackOverflow-clone
 
-You can find the deployed project at
+You can find the deployed project at https://stackoverflow-clone-test.herokuapp.com/
 
 ### Key Features
 
@@ -34,7 +37,7 @@ To get the server running locally:
 In order for the app to function correctly, the user must set up their own environment variables. There should be a .env file containing the following:
 
 ```
-MONGODB_URI
+MONGOLAB_URI
 JWT_Secret
 
 ```
