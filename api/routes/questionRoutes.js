@@ -8,17 +8,20 @@ const router = express.Router();
 router.get('/', controller.getAllQuestions);
 router.post(
   '/upvote/:id',
+  [questionvalidators.validateQuestion],
   [userValidators.validateUser],
   controller.upVoteQuestion
 );
 router.post(
   '/downvote/:id',
+  [questionvalidators.validateQuestion],
   [userValidators.validateUser],
   controller.downVoteQuestion
 );
 router.post(
   '/answer/:id',
   [questionvalidators.questionAndAnswerValidation],
+  [questionvalidators.validateQuestion],
   [userValidators.validateUser],
   controller.answerQuestion
 );

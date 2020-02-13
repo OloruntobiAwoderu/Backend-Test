@@ -13,8 +13,11 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/', authRoutes);
+app.use('/users', authRoutes);
 app.use('/questions', questionRoutes);
 app.use('/search', searchRoutes);
+app.get('/', (req, res) => {
+  res.send('Welcome to stackOverflow-clone');
+});
 
 module.exports = app;
