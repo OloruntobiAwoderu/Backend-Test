@@ -21,7 +21,7 @@ module.exports = {
       if (question) {
         return next();
       }
-      return errorHelper(res, 400, 'Question does not exist');
+      return errorHelper(res, 404, 'Question does not exist');
     } catch (error) {
       return next({ message: 'Error validating question' });
     }

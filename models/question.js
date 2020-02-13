@@ -16,7 +16,7 @@ const questionSchema = new Schema(
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'user'
+      required: [true, 'question must have a User id']
     },
     answers: [
       {
