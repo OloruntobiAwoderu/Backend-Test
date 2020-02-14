@@ -94,7 +94,6 @@ module.exports = {
             { $push: { notifications: id } },
             { new: true }
           );
-          console.log(notifications);
         });
         return successResponse(res, 200, answeredQuestion);
       }
@@ -115,14 +114,19 @@ module.exports = {
         });
         if (isSubscribed)
           successResponse(res, 200, 'You are now subscribed to this question');
+      } else {
+        const existingQuestion = await models.Question.findOneAndUpdate(
+          { questionId: id },
+          { $push: { subscribers: user._id } },
+          { runValidators: true }
+        );
+        if (existingQuestion)
+          successResponse(
+            res,
+            200,
+            'You are now subscribed to this existing question'
+          );
       }
-      const existingQuestion = await models.Question.updateOne(
-        { questionId: id },
-        { $push: { subscribers: user._id } },
-        { runValidators: true }
-      );
-      if (existingQuestion)
-        successResponse(res, 200, 'You are now subscribed to this question');
     } catch (error) {
       errorHelper(res, 500, error);
     }
