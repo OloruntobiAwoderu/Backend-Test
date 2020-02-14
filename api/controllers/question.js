@@ -34,7 +34,7 @@ module.exports = {
       if (question === null) {
         const answer = await models.Question.findOneAndUpdate(
           { _id: id },
-          { voters: user._id, $inc: { vote: 1 } },
+          { $push: { voters: user._id }, $inc: { vote: 1 } },
           { new: true }
         );
         return successResponse(res, 200, answer);
@@ -81,9 +81,47 @@ module.exports = {
 
         { new: true }
       );
+      console.log(answeredQuestion);
+      const subscribers = await models.Subscription.findOne({ questionId: id });
+      console.log(subscribers, 1);
+      if (subscribers) {
+        subscribers.subscribers.map(async subscriber => {
+          const notifications = await models.User.findOneAndUpdate(
+            { _id: subscriber },
+            { $push: { notifications: id } },
+            { new: true }
+          );
+          console.log(notifications);
+        });
+        return successResponse(res, 200, answeredQuestion);
+      }
       return successResponse(res, 200, answeredQuestion);
     } catch (error) {
       return errorHelper(res, 500, error);
+    }
+  },
+  async subscribeToAQuestion(req, res) {
+    try {
+      const { id } = req.params;
+      const { user } = req;
+      const question = await models.Subscription.findOne({ questionId: id });
+      if (!question) {
+        const isSubscribed = await models.Subscription.create({
+          questionId: id,
+          subscribers: user._id
+        });
+        if (isSubscribed)
+          successResponse(res, 200, 'You are now subscribed to this question');
+      }
+      const existingQuestion = await models.Question.updateOne(
+        { questionId: id },
+        { $push: { subscribers: user._id } },
+        { runValidators: true }
+      );
+      if (existingQuestion)
+        successResponse(res, 200, 'You are now subscribed to this question');
+    } catch (error) {
+      errorHelper(res, 500, error);
     }
   }
 };

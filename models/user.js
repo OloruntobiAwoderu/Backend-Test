@@ -25,7 +25,7 @@ const userSchema = new Schema(
       required: [true, 'User must have a lastname'],
       trim: true
     },
-    subscriptions: {
+    notifications: {
       type: Array
     }
   },

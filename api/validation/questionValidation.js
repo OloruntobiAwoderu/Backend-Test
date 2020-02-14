@@ -17,11 +17,12 @@ module.exports = {
   async validateQuestion(req, res, next) {
     try {
       const { id } = req.params;
-      const question = await models.Question.findById(id).exec();
-      if (question) {
-        return next();
+      const question = await models.Question.findOne({ _id: id });
+
+      if (!question) {
+        return errorHelper(res, 404, 'Question does not exist');
       }
-      return errorHelper(res, 404, 'Question does not exist');
+      return next();
     } catch (error) {
       return next({ message: 'Error validating question' });
     }

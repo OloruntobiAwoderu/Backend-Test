@@ -8,14 +8,16 @@ const router = express.Router();
 router.get('/', controller.getAllQuestions);
 router.post(
   '/upvote/:id',
-  [questionvalidators.validateQuestion],
+
   [userValidators.validateUser],
+  [questionvalidators.validateQuestion],
   controller.upVoteQuestion
 );
 router.post(
   '/downvote/:id',
-  [questionvalidators.validateQuestion],
+
   [userValidators.validateUser],
+  [questionvalidators.validateQuestion],
   controller.downVoteQuestion
 );
 router.post(
@@ -30,6 +32,11 @@ router.post(
   [questionvalidators.questionAndAnswerValidation],
   [userValidators.validateUser],
   controller.askQuestion
+);
+router.post(
+  '/subscribe/:id',
+  [userValidators.validateUser],
+  [controller.subscribeToAQuestion]
 );
 
 module.exports = router;

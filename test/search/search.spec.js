@@ -13,16 +13,6 @@ const {
 } = require('../db');
 const { generateToken } = require('../../api/helpers/jwt');
 
-const testUser = {
-  email: 'test@artfinder.com',
-  password: '12345678'
-};
-
-const userData = {
-  email: 'johndoe@gmail.com',
-  password: '123456789'
-};
-
 describe('#Auth', () => {
   beforeAll(() => {
     return connectDB();
@@ -40,26 +30,45 @@ describe('#Auth', () => {
     return disconnectDB();
   });
 
-  describe('/search/users', () => {
+  describe('/search/question', () => {
     it('should return question', async done => {
       try {
         const userInfo = await getUser();
         const token = await generateToken(userInfo);
         const response = await request(server)
-          .get('/questions/ask')
+          .post('/questions/ask')
           .set('authorization', token)
           .send({
             description: 'Hi there, lets play'
           });
+
         const response2 = await request(server)
-          .post(
-            `/search/questions?searchQuery=${response.description}&filter=description`
+          .get(`/search/questions?searchQuery=Hi&filter=description`)
+          .set('authorization', token);
+
+        expect(response2.status).toEqual(200);
+      } catch (error) {
+        expect(error).toHaveProperty('status', 500);
+      } finally {
+        done();
+      }
+    });
+  });
+  describe('/search/users', () => {
+    it('should return question', async done => {
+      try {
+        const userInfo = await getUser();
+        const token = await generateToken(userInfo);
+
+        const response2 = await request(server)
+          .get(
+            `/search/questions?searchQuery=${userInfo.firstname}&filter=firstname`
           )
           .set('authorization', token);
 
         expect(response2.status).toEqual(200);
       } catch (error) {
-        expect(error).toBe(error);
+        expect(error).toHaveProperty('status', 500);
       } finally {
         done();
       }
