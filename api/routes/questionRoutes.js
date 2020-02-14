@@ -33,5 +33,10 @@ router.post(
   [userValidators.validateUser],
   controller.askQuestion
 );
+router.post(
+  '/subscribe/:id',
+  [userValidators.validateUser],
+  [controller.subscribeToAQuestion]
+);
 
 module.exports = router;
