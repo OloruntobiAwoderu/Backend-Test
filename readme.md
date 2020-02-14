@@ -15,7 +15,7 @@ You can find the deployed project at https://stackoverflow-clone-test.herokuapp.
   - Search
   - Upvote a question
   - Downvote a question
--
+
 - No need to create account to view questions and answers
 
 ## Tech Stack
