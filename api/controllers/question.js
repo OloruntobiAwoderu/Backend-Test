@@ -120,9 +120,7 @@ module.exports = {
         const question = await models.Subscription.findOne({ questionId: id });
 
         if (question) {
-          const doesIdExist = question.subscribers.includes(
-            mongoose.Types.ObjectId(user._id)
-          );
+          const doesIdExist = question.subscribers.includes(user._id);
 
           if (doesIdExist) {
             successResponse(
