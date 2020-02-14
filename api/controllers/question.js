@@ -1,5 +1,6 @@
 const models = require('../../models');
 const { successResponse, errorHelper } = require('../helpers/response');
+const mongoose = require('mongoose');
 
 module.exports = {
   async askQuestion(req, res) {
@@ -84,9 +85,9 @@ module.exports = {
 
         { new: true }
       );
-      console.log(answeredQuestion);
+
       const subscribers = await models.Subscription.findOne({ questionId: id });
-      console.log(subscribers, 1);
+
       if (subscribers) {
         subscribers.subscribers.map(async subscriber => {
           const notifications = await models.User.findOneAndUpdate(
@@ -107,6 +108,7 @@ module.exports = {
       const { id } = req.params;
       const { user } = req;
       const question = await models.Subscription.findOne({ questionId: id });
+
       if (!question) {
         const isSubscribed = await models.Subscription.create({
           questionId: id,
@@ -115,17 +117,33 @@ module.exports = {
         if (isSubscribed)
           successResponse(res, 200, 'You are now subscribed to this question');
       } else {
-        const existingQuestion = await models.Question.findOneAndUpdate(
-          { questionId: id },
-          { $push: { subscribers: user._id } },
-          { runValidators: true }
-        );
-        if (existingQuestion)
-          successResponse(
-            res,
-            200,
-            'You are now subscribed to this existing question'
+        const question = await models.Subscription.findOne({ questionId: id });
+
+        if (question) {
+          const doesIdExist = question.subscribers.includes(
+            mongoose.Types.ObjectId(user._id)
           );
+
+          if (doesIdExist) {
+            successResponse(
+              res,
+              200,
+              'You are already subscribed to this question'
+            );
+          } else {
+            const existingQuestion = await models.Subscription.findOneAndUpdate(
+              { questionId: id },
+              { $push: { subscribers: user._id } }
+            );
+
+            if (existingQuestion)
+              successResponse(
+                res,
+                200,
+                'You are now subscribed to this existing question'
+              );
+          }
+        }
       }
     } catch (error) {
       errorHelper(res, 500, error);
