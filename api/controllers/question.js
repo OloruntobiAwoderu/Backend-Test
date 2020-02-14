@@ -138,7 +138,7 @@ module.exports = {
               successResponse(
                 res,
                 200,
-                'You are now subscribed to this existing question'
+                'You are now subscribed to this question'
               );
           }
         }

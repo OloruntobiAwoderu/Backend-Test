@@ -15,7 +15,9 @@ module.exports = {
   },
   async loginUser(req, res, next) {
     try {
-      const user = await models.User.findOne({ email: req.body.email }).exec();
+      const user = await models.User.findOne({ email: req.body.email }).select(
+        '+password'
+      );
 
       if (!user) {
         return errorHelper(res, 401, 'Invalid credentials');
