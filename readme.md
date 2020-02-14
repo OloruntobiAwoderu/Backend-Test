@@ -43,4 +43,5 @@ JWT_Secret
 ```
 
 ## Endpoints
+Documentation for Endpoints can be found [here](https://documenter.getpostman.com/view/9555585/SzKPVgkx?version=latest)
 
