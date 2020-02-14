@@ -17,7 +17,10 @@ module.exports = {
   async getAllQuestions(req, res) {
     try {
       const questions = await models.Question.find({});
-      return successResponse(res, 200, questions);
+      if (questions.length > 0) {
+        return successResponse(res, 200, questions);
+      }
+      successResponse(res, 200, 'No questions available at this time');
     } catch (error) {
       return errorHelper(res, 500, error);
     }
